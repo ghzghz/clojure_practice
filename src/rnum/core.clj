@@ -21,7 +21,7 @@
 
 (defn to-factors [d basis]
   "Factor the decimal w.r.t. the suppled basis (vector of values)
-  returns a vector that is proportially alligned with the basis
+  returns a vector that is positionally alligned with the basis
   e.g.
   (to-factors 12 [10 1]) -> [1 2] i.e. [(1*10) + (2*1)]
   (to-factors 12 [8 4 1]) -> [1 1 0] i.e. [(1*8) + (1*4) + (0*1)]"
