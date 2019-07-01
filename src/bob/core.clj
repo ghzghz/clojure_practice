@@ -15,9 +15,9 @@
                ["IV" 4]
                ["I" 1]])
 
-(defn firsts [s] (map first s))
+(defn firsts [v] (map first v))
 
-(defn seconds [s] (map second s))
+(defn seconds [v] (map second v))
 
 (defn to-factors [d basis]
   "Factor the decimal w.r.t. the suppled basis (vector of values)
@@ -29,12 +29,12 @@
   (rest
     (firsts
       (reduce
-       #(conj %1
+        #(conj %1
               ((juxt quot mod)
                (last (last %1))
                %2))
-       [[0 d]]
-       basis))))
+         [[0 d]]
+         basis))))
 
 (defn expand-to-string [v]
   "take a vector of pairs: [str n] and expand it"
