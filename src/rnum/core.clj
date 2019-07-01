@@ -1,5 +1,6 @@
 (ns rnum.core
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.test :refer :all]))
 
 (def numerals [["M" 1000]
                ["CM" 900]
@@ -24,8 +25,8 @@
   returnes a vector that is positionaly equivilent to the values in basis
   so that multiplying basis with output vector and summing the result will give d"
   {:test #(do
-    (assert (= (to-factors 12 [10 1]) [1 2]))
-    (assert (= (to-factors 12 [8 4 1]) [1 1 0])))}
+    (is (= (to-factors 12 [10 1]) [1 2]))
+    (is (= (to-factors 12 [8 4 1]) [1 1 0])))}
   [d basis]
   (rest
     (firsts
@@ -41,8 +42,8 @@
   "expand a vector of pairs : [str num] and expand it
   by concatinating all sets of str repeated num times"
   {:test #(do
-    (assert (= (expand-to-string [["x" 2] ["y" 2]]) "xxyy"))
-    (assert (= (expand-to-string [["bob" 2] ["x" 0] ["fred" 1] ["x" 0]]) "bobbobfred")))}
+    (is (= (expand-to-string [["x" 2] ["y" 2]]) "xxyy"))
+    (is (= (expand-to-string [["bob" 2] ["x" 0] ["fred" 1] ["x" 0]]) "bobbobfred")))}
   [v]
   (clojure.string/join
     (map
@@ -50,8 +51,12 @@
         (clojure.string/join (repeat n s)))
       v)))
 
-(defn to-numerals [d]
+(defn to-numerals
   "from decimal to roman numerals"
+  {:test #(do
+    (is (= (to-numerals 1712) "MDCCXII"))
+    (is (= (to-numerals 10) "X")))}
+  [d]
   (if
     (< d 1)
       ""
