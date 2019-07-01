@@ -23,8 +23,9 @@
   "Factor the decimal w.r.t. the suppled basis (vector of values)
   returns a vector that is positionally alligned with the basis
   e.g.
-  (to-factors 12 [10 1]) -> [1 2] i.e. [(1*10) + (2*1)]
-  (to-factors 12 [8 4 1]) -> [1 1 0] i.e. [(1*8) + (1*4) + (0*1)]"
+  (to-factors 12 [10 1])  -> [1 2]   i.e. [(1*10) + (2*1)]
+  (to-factors 12 [8 4 1]) -> [1 1 0] i.e. [(1*8) + (1*4) + (0*1)]
+  "
   (rest
     (firsts
       (reduce
@@ -37,7 +38,9 @@
 
 (defn expand-to-string [v]
   "take a vector of pairs: [str n] and expand it
-  by repeating str n times and joininig that with all values in vector"
+  by repeating str n times and joining that with all values in vector
+  (expand-to-string [['x' 2] ['y' 3]]) -> 'xxyyy'
+  "
   (clojure.string/join
     (map
       #(let [[s n] %1]
@@ -46,9 +49,9 @@
 
 (defn to-numerals [d]
   "from decimal to roman numerals"
-  (cond
-    (< d 1) ""
-    :else
+  (if
+    (< d 1)
+      ""
       (expand-to-string
         (map
           vector
