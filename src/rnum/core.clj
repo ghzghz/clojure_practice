@@ -46,11 +46,14 @@
 
 (defn to-numerals [d]
   "from decimal to roman numerals"
-  (expand-to-string
-    (map
-      vector
-      (firsts numerals)
-      (to-factors d (seconds numerals)))))
+  (cond
+    (< d 1) ""
+    :else
+      (expand-to-string
+        (map
+          vector
+          (firsts numerals)
+          (to-factors d (seconds numerals))))))
 
 (defn -main
   [& args]

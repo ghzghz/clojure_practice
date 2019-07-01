@@ -13,6 +13,7 @@
 
 (deftest boundery-tests
     (is (= (to-numerals 0) ""))
+    (is (= (to-numerals -1) ""))
     )
 
 (deftest internal-to-factors
