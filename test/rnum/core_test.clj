@@ -1,6 +1,6 @@
-(ns bob.core-test
+(ns rnum.core-test
   (:require [clojure.test :refer :all]
-            [bob.core :refer :all]))
+            [rnum.core :refer :all]))
 
 (deftest simple-tests
     (is (= (to-numerals 1) "I"))

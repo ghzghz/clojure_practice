@@ -1,4 +1,4 @@
-(ns bob.core
+(ns rnum.core
   (:gen-class))
 
 (def numerals [["M" 1000]
@@ -56,5 +56,4 @@
   [& args]
   (println (map (juxt identity to-numerals) (range 100)))
   )
-
 
