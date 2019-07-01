@@ -21,11 +21,10 @@
 
 (defn to-factors [d basis]
   "Factor the decimal w.r.t. the suppled basis (vector of values)
-  returns a vector that is proportially equivilant to the basis
+  returns a vector that is proportially alligned with the basis
   e.g.
   (to-factors 12 [10 1]) -> [1 2] i.e. [(1*10) + (2*1)]
-  (to-factors 12 [8 4 1]) -> [1 1 0] i.e. [(1*8) + (1*4) + (0*1)]
-  "
+  (to-factors 12 [8 4 1]) -> [1 1 0] i.e. [(1*8) + (1*4) + (0*1)]"
   (rest
     (firsts
       (reduce
@@ -37,7 +36,8 @@
          basis))))
 
 (defn expand-to-string [v]
-  "take a vector of pairs: [str n] and expand it"
+  "take a vector of pairs: [str n] and expand it
+  by repeating str n times and joininig that with all values in vector"
   (clojure.string/join
     (map
       #(let [[s n] %1]
@@ -53,7 +53,6 @@
       (to-factors d (seconds numerals)))))
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
   (println (map (juxt identity to-numerals) (range 100)))
   )
