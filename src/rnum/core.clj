@@ -19,13 +19,14 @@
 
 (defn seconds [v] (map second v))
 
-(defn to-factors [d basis]
-  "Factor the decimal w.r.t. the suppled basis (vector of values)
-  returns a vector that is positionally alligned with the basis
-  e.g.
-  (to-factors 12 [10 1])  -> [1 2]   i.e. [(1*10) + (2*1)]
-  (to-factors 12 [8 4 1]) -> [1 1 0] i.e. [(1*8) + (1*4) + (0*1)]
-  "
+(defn to-factors
+  "factor a decimal into the sum of multiples of a set of values
+  returnes a vector that is positionaly equivilent to the values in basis
+  so that multiplying basis with output vector and summing the result will give d"
+  {:test #(do
+    (assert (= (to-factors 12 [10 1]) [1 2]))
+    (assert (= (to-factors 12 [8 4 1]) [1 1 0])))}
+  [d basis]
   (rest
     (firsts
       (reduce
@@ -36,11 +37,13 @@
          [[0 d]]
          basis))))
 
-(defn expand-to-string [v]
-  "take a vector of pairs: [str n] and expand it
-  by repeating str n times and joining that with all values in vector
-  (expand-to-string [['x' 2] ['y' 3]]) -> 'xxyyy'
-  "
+(defn expand-to-string
+  "expand a vector of pairs : [str num] and expand it
+  by concatinating all sets of str repeated num times"
+  {:test #(do
+    (assert (= (expand-to-string [["x" 2] ["y" 2]]) "xxyy"))
+    (assert (= (expand-to-string [["bob" 2] ["x" 0] ["fred" 1] ["x" 0]]) "bobbobfred")))}
+  [v]
   (clojure.string/join
     (map
       #(let [[s n] %1]
