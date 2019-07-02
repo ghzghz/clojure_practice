@@ -1,30 +1,51 @@
 (ns rnum.core-test
-  (:require [clojure.test :refer :all]
-            [rnum.core :refer :all]))
+  (:require [rnum.core :as sut]
+            [clojure.test :refer :all]
+            [clojure.test.check.properties :as prop]
+            [clojure.test.check.generators :as gen]
+            [clojure.test.check.clojure-test :refer [defspec]]
+            ))
 
 (deftest simple-tests
-    (is (= (to-numerals 1) "I"))
-    (is (= (to-numerals 5) "V"))
-    (is (= (to-numerals 88) "LXXXVIII"))
-    (is (= (to-numerals 1712) "MDCCXII"))
-    (is (= (to-numerals 2000) "MM"))
-    (is (= (to-numerals 2029) "MMXXIX"))
+    (is (= (sut/to-numerals 1) "I"))
+    (is (= (sut/to-numerals 5) "V"))
+    (is (= (sut/to-numerals 88) "LXXXVIII"))
+    (is (= (sut/to-numerals 1712) "MDCCXII"))
+    (is (= (sut/to-numerals 2000) "MM"))
+    (is (= (sut/to-numerals 2029) "MMXXIX"))
     )
 
 (deftest boundery-tests
-    (is (= (to-numerals 0) ""))
-    (is (= (to-numerals -1) ""))
+    (is (= (sut/to-numerals 0) ""))
+    (is (= (sut/to-numerals -1) ""))
     )
 
 (deftest internal-to-factors
-  (is (= (to-factors 12 [10 1]) [1 2]))
-  (is (= (to-factors 12 [8 4 1]) [1 1 0]))
-  (is (= (to-factors 100 [64 32 16 8 4 2 1]) [1 1 0 0 1 0 0 ]))
-  (is (= (to-factors 99 [50 40 10 9 5 4 1]) [1 1 0 1 0 0 0]))
+  (is (= (sut/to-factors 12 [10 1]) [1 2]))
+  (is (= (sut/to-factors 12 [8 4 1]) [1 1 0]))
+  (is (= (sut/to-factors 100 [64 32 16 8 4 2 1]) [1 1 0 0 1 0 0 ]))
+  (is (= (sut/to-factors 99 [50 40 10 9 5 4 1]) [1 1 0 1 0 0 0]))
   )
 
 (deftest internal-expand-to-string
-  (is (= (expand-to-string [["x" 10]]) "xxxxxxxxxx"))
-  (is (= (expand-to-string [["x" 2] ["y" 2]]) "xxyy"))
-  (is (= (expand-to-string [["bob" 2] ["bad" 0] ["fred" 1] ["bad" 0]]) "bobbobfred"))
+  (is (= (sut/expand-to-string [["x" 10]]) "xxxxxxxxxx"))
+  (is (= (sut/expand-to-string [["x" 2] ["y" 2]]) "xxyy"))
+  (is (= (sut/expand-to-string [["bob" 2] ["bad" 0] ["fred" 1] ["bad" 0]]) "bobbobfred"))
   )
+
+; reverse checking
+
+(defn reduce-factors
+  [basis factors]
+  (reduce + (map * basis factors)))
+
+; generative tests
+
+(deftest internal-to-factors-generative-explicit
+  (are [d basis] (= (reduce-factors basis (sut/to-factors d basis)) d)
+       12 [10 1]
+       12 [8 4 1]
+       99 [100 99 98 97 96 1]
+       ))
+
+
