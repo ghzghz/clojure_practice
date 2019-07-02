@@ -21,9 +21,9 @@
 (defn seconds [v] (map second v))
 
 (defn to-factors
-  "factor a decimal into the sum of multiples of a set of values
-  returnes a vector that is positionaly equivilent to the values in basis
-  so that multiplying basis with output vector and summing the result will give d"
+  "factor a decimal into the sum of multiples of a set of supplied values (basis)
+  returns a vector that positionally matches the values in basis
+  the result being that multiplying basis with output vector and summing the result will give d"
   {:test #(do
     (is (= (to-factors 12 [10 1]) [1 2]))
     (is (= (to-factors 12 [8 4 1]) [1 1 0])))}
