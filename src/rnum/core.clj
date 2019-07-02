@@ -47,8 +47,7 @@
   [v]
   (clojure.string/join
     (map
-      #(let [[s n] %1]
-        (clojure.string/join (repeat n s)))
+      (fn [[s n]] (clojure.string/join (repeat n s)))
       v)))
 
 (defn to-numerals

@@ -1,9 +1,6 @@
 (ns rnum.core-test
   (:require [rnum.core :as sut]
             [clojure.test :refer :all]
-            [clojure.test.check.properties :as prop]
-            [clojure.test.check.generators :as gen]
-            [clojure.test.check.clojure-test :refer [defspec]]
             ))
 
 (deftest simple-tests
