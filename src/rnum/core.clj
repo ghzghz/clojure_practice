@@ -53,9 +53,6 @@
 
 (defn to-numerals
   "from decimal to roman numerals"
-  {:test #(do
-    (is (= (to-numerals 1712) "MDCCXII"))
-    (is (= (to-numerals 10) "X")))}
   [d]
   (if
     (< d 1)
